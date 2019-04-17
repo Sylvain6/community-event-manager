@@ -7,6 +7,7 @@ namespace App\Controller\Speaker;
 use App\Dto\SpeakerRequest;
 use App\Form\SpeakerType;
 use App\Repository\SpeakerRepositoryInterface;
+use App\Service\Event\EventServiceInterface;
 use App\Service\FileUploaderInterface;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -25,19 +26,22 @@ final class Edit
     private $formFactory;
     private $speakerRepository;
     private $fileUploader;
+    private $eventService;
 
     public function __construct(
         Twig $renderer,
         SpeakerRepositoryInterface $speakerRepository,
         FormFactoryInterface $formFactory,
         RouterInterface $router,
-        FileUploaderInterface $fileUploader
+        FileUploaderInterface $fileUploader,
+        EventServiceInterface $eventService
     ) {
         $this->renderer = $renderer;
         $this->speakerRepository = $speakerRepository;
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->fileUploader = $fileUploader;
+        $this->eventService = $eventService;
     }
 
     /**
@@ -48,12 +52,19 @@ final class Edit
         $id = Uuid::fromString($request->attributes->get('id'))->toString();
 
         $speaker = $this->speakerRepository->find($id);
+        dump($speaker);
+        die;
         if (!$speaker) {
             throw new NotFoundHttpException();
         }
 
         $speakerRequest = SpeakerRequest::createFromEntity($speaker);
         $form = $this->formFactory->create(SpeakerType::class, $speakerRequest);
+
+        if (!$this->eventService->isEventSelected()) {
+            $form->remove('isInterviewSent');
+        }
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

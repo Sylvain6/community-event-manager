@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Speaker;
 
+use App\Entity\SpeakerEventInterviewSent;
+use App\Repository\SpeakerEventInterviewSent\SpeakerEventInterviewSentRepository;
 use App\Repository\SpeakerRepositoryInterface;
+use App\Service\Event\EventServiceInterface;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +19,19 @@ final class Show
 {
     private $renderer;
     private $speakerRepository;
+    private $eventService;
+    private $speakerEventInterviewSentRepository;
 
-    public function __construct(Twig $renderer, SpeakerRepositoryInterface $speakerRepository)
-    {
+    public function __construct(
+        Twig $renderer,
+        SpeakerRepositoryInterface $speakerRepository,
+        EventServiceInterface $eventService,
+        SpeakerEventInterviewSentRepository $speakerEventInterviewSentRepository
+    ) {
         $this->renderer = $renderer;
         $this->speakerRepository = $speakerRepository;
+        $this->eventService = $eventService;
+        $this->speakerEventInterviewSentRepository = $speakerEventInterviewSentRepository;
     }
 
     /**
@@ -35,8 +46,13 @@ final class Show
             throw new NotFoundHttpException();
         }
 
+        if ($this->eventService->isEventSelected()) {
+            $event = $this->eventService->getSelectedEvent();
+            $sendInterview = $this->speakerEventInterviewSentRepository->findBySpeakerAndEvent($speaker, $event);
+        }
         return new Response($this->renderer->render('speaker/show.html.twig', [
             'speaker' => $speaker,
+            'sendInterview' => $sendInterview ?? null,
         ]));
     }
 }

@@ -101,9 +101,9 @@ class Speaker
     private $events;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\OneToMany(targetEntity="App\Entity\SpeakerEventInterviewSent", mappedBy="speaker")
      */
-    private $interviewSent = false;
+    private $interviewSent;
 
     public function getId(): ?string
     {
@@ -218,21 +218,6 @@ class Speaker
         return $this;
     }
 
-    public function isInterviewSent(): bool
-    {
-        return $this->interviewSent;
-    }
-
-    public function confirmInterviewIsSent(): void
-    {
-        $this->interviewSent = true;
-    }
-
-    public function confirmInterviewNotSent(): void
-    {
-        $this->interviewSent = false;
-    }
-
     public function getTalks(): Collection
     {
         return $this->talks;
@@ -246,5 +231,10 @@ class Speaker
     public function addAttendingEvent(Event $event): void
     {
         $this->events->add($event);
+    }
+
+    public function getInterviewSent(): Collection
+    {
+        return $this->interviewSent;
     }
 }
