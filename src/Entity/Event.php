@@ -47,7 +47,6 @@ class Event
      */
     private $address;
 
-
     public function __construct(
         UuidInterface $id,
         string $name,

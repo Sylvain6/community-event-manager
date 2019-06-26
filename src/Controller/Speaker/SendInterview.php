@@ -68,7 +68,7 @@ final class SendInterview
 
         if ($form->isSubmitted() && $form->isValid()) {
             $questionList = $this->interviewService->filterQuestions($interviewRequest);
-            $mailerSuccess = $this->interviewService->sendInterviewEmail($speaker, $event,$questionList);
+            $mailerSuccess = $this->interviewService->sendInterviewEmail($speaker, $event, $questionList);
 
             if (self::SEND_MAIL_SUCCESSFUL === $mailerSuccess) {
                 $speakerEvent->confirmInterviewIsSent();

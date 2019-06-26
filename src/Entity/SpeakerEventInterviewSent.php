@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class used to implement many to many between Speaker and Event with the information about the interview
- * (one interview can only be sent to one speaker for one event)
+ * (one interview can only be sent to one speaker for one event).
+ *
  * @ORM\Entity()
  * @ORM\Table(name="speaker_event_interview_sent")
  */
@@ -35,7 +36,6 @@ class SpeakerEventInterviewSent
      * @ORM\Column(type="boolean")
      */
     private $interviewSent = false;
-
 
     public function __construct(Speaker $speaker, Event $event)
     {

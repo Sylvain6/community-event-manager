@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Speaker;
 
-use App\Entity\SpeakerEventInterviewSent;
 use App\Repository\SpeakerEventInterviewSent\SpeakerEventInterviewSentRepository;
 use App\Repository\SpeakerRepositoryInterface;
 use App\Service\Event\EventServiceInterface;
@@ -56,7 +55,7 @@ final class Show
         return new Response($this->renderer->render('speaker/show.html.twig', [
             'speaker' => $speaker,
             'sendInterview' => $sendInterview ?? null,
-            'attendingEvents' => $attendingEvents
+            'attendingEvents' => $attendingEvents,
         ]));
     }
 }

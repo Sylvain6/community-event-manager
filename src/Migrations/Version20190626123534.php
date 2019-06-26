@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
@@ -10,12 +12,12 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190626123534 extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $schema->createSequence('speaker_event_interview_sent_id_seq');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropSequence('speaker_event_interview_sent_id_seq');
     }

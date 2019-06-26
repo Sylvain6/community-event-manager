@@ -7,8 +7,6 @@ namespace App\Repository;
 use App\Dto\SpeakerRequest;
 use App\Entity\Speaker;
 use App\Service\Event\EventServiceInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

@@ -46,7 +46,7 @@ final class Show
 
         return new Response($this->renderer->render('event/show.html.twig', [
             'event' => $event,
-            'attendingSpeakers' => $attendingSpeakers
+            'attendingSpeakers' => $attendingSpeakers,
         ]));
     }
 }

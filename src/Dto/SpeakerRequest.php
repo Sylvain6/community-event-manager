@@ -112,7 +112,7 @@ final class SpeakerRequest
         if (null !== $speakerEvent) {
             $this->isInterviewSent ? $speakerEvent->confirmInterviewIsSent() : $speakerEvent->confirmInterviewNotSent();
         }
-        
+
         return $speaker;
     }
 }

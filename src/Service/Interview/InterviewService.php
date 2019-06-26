@@ -50,7 +50,7 @@ final class InterviewService
                     [
                         'questionList' => $questionList,
                         'speaker' => $speaker,
-                        'event' => $event
+                        'event' => $event,
                     ]),
                 'text/html'
             );
