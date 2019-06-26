@@ -42,17 +42,21 @@ final class Show
         $id = Uuid::fromString($request->attributes->get('id'))->toString();
 
         $speaker = $this->speakerRepository->find($id);
+
         if (!$speaker) {
             throw new NotFoundHttpException();
         }
+        $attendingEvents = $this->speakerEventInterviewSentRepository->findAllEventsBySpeaker($speaker);
 
         if ($this->eventService->isEventSelected()) {
             $event = $this->eventService->getSelectedEvent();
             $sendInterview = $this->speakerEventInterviewSentRepository->findBySpeakerAndEvent($speaker, $event);
         }
+
         return new Response($this->renderer->render('speaker/show.html.twig', [
             'speaker' => $speaker,
             'sendInterview' => $sendInterview ?? null,
+            'attendingEvents' => $attendingEvents
         ]));
     }
 }

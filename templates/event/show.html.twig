@@ -36,6 +36,17 @@
                     <th>End At</th>
                     <td>{{ event.endAt|date('j F Y') }}</td>
                 </tr>
+
+                <tr>
+                    <th>Attending Speakers</th>
+                    <td>
+                        <ul>
+                            {% for speaker in attendingSpeakers %}
+                                <li>{{ speaker.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

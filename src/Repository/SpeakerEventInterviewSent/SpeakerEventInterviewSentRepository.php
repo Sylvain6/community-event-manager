@@ -9,7 +9,7 @@ use App\Entity\Speaker;
 use App\Entity\SpeakerEventInterviewSent;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class SpeakerEventInterviewSentRepository implements SpeakerEventInterviewSentRepositoryInterface
+final class SpeakerEventInterviewSentRepository implements SpeakerEventRepositoryInterface
 {
     private $entityManager;
     private $repository;
@@ -36,6 +36,30 @@ final class SpeakerEventInterviewSentRepository implements SpeakerEventInterview
         return $this->repository->find($id);
     }
 
+    public function findAllSpeakersByEvent(Event $event): array
+    {
+        $result = $this->repository->findBy(['event' => $event]);
+
+        $speakers = [];
+        foreach ($result as $speakerEventInterviewSent) {
+            $speakers[] = $speakerEventInterviewSent->getSpeaker();
+        }
+
+        return $speakers;
+    }
+
+    public function findAllEventsBySpeaker(Speaker $speaker): array
+    {
+        $result = $this->repository->findBy(['speaker' => $speaker]);
+
+        $events = [];
+        foreach ($result as $speakerEventInterviewSent) {
+            $events[] = $speakerEventInterviewSent->getEvent();
+        }
+
+        return $events;
+    }
+
     public function findBySpeakerAndEvent(Speaker $speaker, Event $event): ?SpeakerEventInterviewSent
     {
         return $this->repository->findOneBy(['speaker' => $speaker, 'event' => $event]);
@@ -45,5 +69,13 @@ final class SpeakerEventInterviewSentRepository implements SpeakerEventInterview
     {
         $this->entityManager->remove($event);
         $this->entityManager->flush();
+    }
+
+    public function addAttendingEvent(Speaker $speaker, Event $event): void
+    {
+        if (null === $this->findBySpeakerAndEvent($speaker, $event)) {
+            $speakerEvent = new SpeakerEventInterviewSent($speaker, $event);
+            $this->save($speakerEvent);
+        }
     }
 }

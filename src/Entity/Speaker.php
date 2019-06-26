@@ -36,7 +36,6 @@ class Speaker
         $this->facebook = $facebook;
         $this->linkedin = $linkedin;
         $this->github = $github;
-        $this->events = new ArrayCollection();
     }
 
     /**
@@ -94,16 +93,6 @@ class Speaker
      * @ORM\OneToMany(targetEntity=Talk::class, mappedBy="speaker")
      */
     private $talks;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Event", cascade={"persist", "remove"}))
-     */
-    private $events;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SpeakerEventInterviewSent", mappedBy="speaker")
-     */
-    private $interviewSent;
 
     public function getId(): ?string
     {
@@ -221,20 +210,5 @@ class Speaker
     public function getTalks(): Collection
     {
         return $this->talks;
-    }
-
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    public function addAttendingEvent(Event $event): void
-    {
-        $this->events->add($event);
-    }
-
-    public function getInterviewSent(): Collection
-    {
-        return $this->interviewSent;
     }
 }

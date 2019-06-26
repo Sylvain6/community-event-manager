@@ -7,7 +7,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Class used to implement many to many between Speaker and Event with the information about the interview
+ * (one interview can only be sent to one speaker for one event)
  * @ORM\Entity()
+ * @ORM\Table(name="speaker_event_interview_sent")
  */
 class SpeakerEventInterviewSent
 {
