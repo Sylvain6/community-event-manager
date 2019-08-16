@@ -27,4 +27,9 @@ abstract class AbstractTableNameMigration extends AbstractMigration
     protected const EVENTS_SPEAKERS = 'speaker_event';
     protected const EVENTS_ORGANIZATIONS = 'organisation_event';
     protected const SPEAKER_EVENT_INTERVIEW_SENT = 'speaker_event_interview_sent';
+
+    final protected function checkDatabase(): void
+    {
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+    }
 }
